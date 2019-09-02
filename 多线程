@@ -1,0 +1,37 @@
+import threading
+import time
+import pygrib
+
+class MyThreading(threading.Thread):
+
+    def __init__(self, func, *args, **kwargs):
+        super(MyThreading,self).__init__()
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+
+    def run(self, *args , **kwargs):
+        self.func(*self.args, **self.kwargs)
+
+def my_func(a,b,c):
+    """
+        你可以把任何你想让线程做的事定义在这里
+        """
+    print('start waiting:', time.strftime('%H:%M:%S'),"     ",a,b,c)
+    time.sleep(b)
+    print('stop waiting', time.strftime('%H:%M:%S'),"     ",a,b,c)
+
+
+
+
+
+
+
+for i in range(3,12):
+    obj = MyThreading(my_func,i-1,i,i+1)
+    # print(threading.current_thread().getName())
+    obj.start()
+    # obj.join()     # 一个进程结束进行下一个进程
+print("*******************************")
+print(obj.is_alive())
+print("*******************************")
